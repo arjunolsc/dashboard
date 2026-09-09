@@ -1,0 +1,64 @@
+/* Admin Dashboard - loaded alongside dashboard.css (shared tokens, hero,
+   content panel, KPI grid, table styles). This file only holds the bits
+   unique to the HR admin view: an extra KPI icon tone, the stacked
+   attendance bar, the department bar chart's canvas sizing, and the
+   birthday/anniversary event rows. */
+
+.tone-rose { background: var(--rose-50); color: var(--rose-600); }
+
+.admin-two-col-even {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+	margin-bottom: 20px;
+	align-items: start;
+}
+@media (max-width: 900px) {
+	.admin-two-col-even { grid-template-columns: 1fr; }
+}
+
+.admin-attendance-bar {
+	display: flex;
+	width: 100%;
+	height: 14px;
+	border-radius: 999px;
+	overflow: hidden;
+	background: var(--ink-100);
+	margin-bottom: 16px;
+}
+.admin-attendance-bar span { display: block; height: 100%; }
+
+.admin-attendance-legend {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 8px 20px;
+}
+.admin-attendance-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--ink-700);
+}
+.admin-attendance-legend-item b { margin-left: auto; color: var(--ink-900); font-weight: 700; }
+.admin-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+
+/* Height is set inline per-render (admin_dashboard.js renderDepartmentCard)
+   based on how many departments there are, so every bar/label fits and
+   Chart.js's autoSkip never has to hide any of them; this is just the
+   floor for when JS hasn't run yet. */
+.admin-chart-wrap { min-height: 240px; }
+
+.admin-event-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--ink-100);
+	font-size: 13.5px;
+}
+.admin-event-row:last-child { border-bottom: none; }
+.admin-event-name { font-weight: 600; color: var(--ink-800); }
+.admin-event-extra { font-weight: 500; color: var(--ink-500); }
+.admin-event-date { font-weight: 600; color: var(--ink-600); }
