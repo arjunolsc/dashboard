@@ -147,6 +147,30 @@ body {
 	margin-bottom: 20px;
 	align-items: start;
 }
+/* The Attendance Calendar renders as a standalone full-width .ess-card
+   (not inside .ess-two-col/.ess-masonry-two-col, which supply their own
+   margin-bottom), so without this it sits flush against whatever comes
+   next - no gap at all, unlike the consistent 20px everywhere else. */
+#attendance-calendar { margin-bottom: 20px; }
+/* Masonry-style two column layout: pairing cards row-by-row (like
+   .ess-two-col above) leaves a big empty gap under whichever card in a
+   row is shorter, since the grid still reserves the taller sibling's
+   full row height for anything below. Stacking each column's cards in
+   its own flex column instead means a short card is immediately
+   followed by the next real card in ITS OWN column, not blank space
+   left by the row's tallest card. Shared by the Employee and Admin
+   dashboards. */
+.ess-masonry-two-col {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	margin-bottom: 20px;
+	align-items: start;
+}
+.ess-masonry-col { display: flex; flex-direction: column; gap: 20px; }
+@media (max-width: 900px) {
+	.ess-masonry-two-col { grid-template-columns: 1fr; }
+}
 .ess-card {
 	background: #fff;
 	border: 1px solid var(--ink-200);
@@ -366,9 +390,14 @@ body {
 .cal-present .cal-daynum { background: var(--emerald-600); color: #fff; }
 .cal-absent .cal-daynum { background: var(--rose-600); color: #fff; }
 .cal-onleave .cal-daynum { background: var(--sky-600); color: #fff; }
-.cal-holiday .cal-daynum { background: var(--violet-600); color: #fff; }
-.cal-weekoff .cal-daynum { color: var(--ink-600); background: var(--ink-200); }
-.cal-halfday .cal-daynum { background: var(--amber-600); color: #fff; }
+.cal-wfh .cal-daynum { background: var(--violet-600); color: #fff; }
+/* Half day worked, half not - a diagonal split (green/neutral) reads at a
+   glance as "half", the way a solid color for a partial-attendance day
+   wouldn't. */
+.cal-halfday .cal-daynum {
+	background: linear-gradient(135deg, var(--emerald-600) 50%, var(--ink-200) 50%);
+	color: var(--ink-900);
+}
 
 .cal-legend {
 	display: flex;
@@ -382,9 +411,8 @@ body {
 .cal-legend-dot.cal-present { background: var(--emerald-600); }
 .cal-legend-dot.cal-absent { background: var(--rose-600); }
 .cal-legend-dot.cal-onleave { background: var(--sky-600); }
-.cal-legend-dot.cal-holiday { background: var(--violet-600); }
-.cal-legend-dot.cal-weekoff { background: var(--ink-400); }
-.cal-legend-dot.cal-halfday { background: var(--amber-600); }
+.cal-legend-dot.cal-wfh { background: var(--violet-600); }
+.cal-legend-dot.cal-halfday { background: linear-gradient(135deg, var(--emerald-600) 50%, var(--ink-200) 50%); }
 
 @media (max-width: 1080px) {
 	.ess-kpi-grid { grid-template-columns: repeat(2, 1fr); }

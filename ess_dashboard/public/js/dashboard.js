@@ -30,11 +30,14 @@
 		};
 		return map[status] || "badge-default";
 	}
+	// Kept in sync with the Attendance doctype's actual status options
+	// (frappe/apps/hrms/hrms/hr/doctype/attendance/attendance.json) - these
+	// five are the only values get_attendance_month can ever return, so
+	// that's exactly what the calendar and its legend cover.
 	function calTone(status) {
 		var map = {
 			Present: "cal-present", Absent: "cal-absent", "On Leave": "cal-onleave",
-			Holiday: "cal-holiday", "Week Off": "cal-weekoff", "Half Day": "cal-halfday",
-			"Work From Home": "cal-present", "On Duty": "cal-present",
+			"Half Day": "cal-halfday", "Work From Home": "cal-wfh",
 		};
 		return map[status] || "";
 	}
@@ -220,8 +223,8 @@
 		["cal-present", "Present"],
 		["cal-absent", "Absent"],
 		["cal-onleave", "On Leave"],
-		["cal-holiday", "Holiday"],
-		["cal-weekoff", "Week Off"],
+		["cal-halfday", "Half Day"],
+		["cal-wfh", "Work From Home"],
 	];
 
 	function fetchAttendanceMonth(year, month) {
@@ -438,21 +441,25 @@
 
 	// ---- main render ----
 	function renderPage(d) {
+		// Pairing cards off row-by-row (Attendance chart next to the much
+		// shorter Leave Balance card, Leave Requests next to the taller
+		// Profile card, etc) left a slab of empty space under whichever
+		// card in each row was shorter, sized to its row-mate. Flowing
+		// everything into two independent masonry columns instead - same
+		// approach as the Admin Dashboard - means a short card is followed
+		// immediately by the next real card in its own column. The
+		// Calendar stays a full-width row on its own since it doesn't pair
+		// with anything.
+		var leftCol = renderAttendanceCard(d) + renderLeaveTable(d) + renderPayslipCard(d);
+		var rightCol = renderLeaveBalanceCard(d) + renderProfileCard(d) + renderHolidaysCard(d) + renderExpenseTable(d);
+
 		return (
 			renderPageHeading(d.employee) +
 			renderKpis(d) +
-			'<div class="ess-two-col">' +
-			renderAttendanceCard(d) +
-			renderLeaveBalanceCard(d) +
-			"</div>" +
 			renderCalendarCard() +
-			'<div class="ess-two-col">' +
-			renderLeaveTable(d) +
-			renderProfileCard(d) +
-			"</div>" +
-			'<div class="ess-two-col">' +
-			'<div style="display:flex;flex-direction:column;gap:20px">' + renderPayslipCard(d) + renderHolidaysCard(d) + "</div>" +
-			renderExpenseTable(d) +
+			'<div class="ess-masonry-two-col">' +
+			'<div class="ess-masonry-col">' + leftCol + "</div>" +
+			'<div class="ess-masonry-col">' + rightCol + "</div>" +
 			"</div>"
 		);
 	}

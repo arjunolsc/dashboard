@@ -265,15 +265,29 @@
 
 	// ---- main render ----
 	function renderPage(d) {
+		// Cards are stacked two columns of masonry rather than paired off
+		// row-by-row - a short card (e.g. Today's Attendance once most of
+		// the day is unmarked) would otherwise leave a slab of empty space
+		// under it, sized to whatever its taller row-mate happens to be.
+		// Each column here just keeps flowing, so a short card is followed
+		// immediately by the next real card in its own column instead.
+		var leftCol =
+			renderAttendanceTodayCard(d) +
+			renderPendingLeavesCard(d) +
+			renderPendingRegularizationsCard(d) +
+			renderEventsCard("Upcoming Birthdays", ICONS.cake, d.upcomingBirthdays, d.upcomingBirthdaysTotal, "No birthdays in the next 30 days");
+		var rightCol =
+			renderDepartmentCard(d) +
+			renderPendingExpensesCard(d) +
+			renderPendingClearancesCard(d) +
+			renderEventsCard("Upcoming Work Anniversaries", ICONS.badge, d.upcomingAnniversaries, d.upcomingAnniversariesTotal, "No anniversaries in the next 30 days", "years");
+
 		return (
 			renderPageHeading() +
 			renderKpis(d) +
-			'<div class="ess-two-col">' + renderAttendanceTodayCard(d) + renderDepartmentCard(d) + "</div>" +
-			'<div class="admin-two-col-even">' + renderPendingLeavesCard(d) + renderPendingExpensesCard(d) + "</div>" +
-			'<div class="admin-two-col-even">' + renderPendingRegularizationsCard(d) + renderPendingClearancesCard(d) + "</div>" +
-			'<div class="ess-two-col">' +
-			renderEventsCard("Upcoming Birthdays", ICONS.cake, d.upcomingBirthdays, d.upcomingBirthdaysTotal, "No birthdays in the next 30 days") +
-			renderEventsCard("Upcoming Work Anniversaries", ICONS.badge, d.upcomingAnniversaries, d.upcomingAnniversariesTotal, "No anniversaries in the next 30 days", "years") +
+			'<div class="ess-masonry-two-col">' +
+			'<div class="ess-masonry-col">' + leftCol + "</div>" +
+			'<div class="ess-masonry-col">' + rightCol + "</div>" +
 			"</div>"
 		);
 	}
