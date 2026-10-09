@@ -15,7 +15,7 @@ def get_context(context):
 	if frappe.session.user != "Administrator":
 		user_roles = set(frappe.get_roles(frappe.session.user))
 		if not (user_roles & ALLOWED_ROLES):
-			frappe.local.flags.redirect_location = "/app/hrms-home"
+			frappe.local.flags.redirect_location = "/app/atlas-home"
 			raise frappe.Redirect
 
 	context.no_sidebar = 1

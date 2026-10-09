@@ -86,7 +86,7 @@
 	function renderHero() {
 		return (
 			'<div class="ess-hero">' +
-			'<a href="/app/hrms-home" class="ess-home-btn" title="Back to HRMS Home">' +
+			'<a href="/app/atlas-home" class="ess-home-btn" title="Back to Atlas Home">' +
 			ICONS.home + "<span>HRMS Home</span></a>" +
 			'<img src="/files/om_logo.svg" alt="OM One" class="ess-hero-logo">' +
 			'<p class="ess-hero-title">Employee Self-Service Dashboard</p>' +
