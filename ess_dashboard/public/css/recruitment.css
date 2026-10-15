@@ -34,7 +34,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html, body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font: 13.5px/1.5 "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; color: inherit; }
 svg { width: 16px; height: 16px; flex: none; }
@@ -282,3 +282,23 @@ a.rd-metric:hover { border-color: var(--brand); }
 .rd-field input[type="checkbox"] { min-width: 0; width: 16px; height: 16px; padding: 0; }
 .rd-head { flex-wrap: wrap; }
 @media (max-width: 900px) { .rd-head .rd-note { margin-left: 0; flex-basis: 100%; } }
+
+
+/* ── desk look: the same navy top bar, "one" logo and Poppins as /app (olscpl_theme.css --om-navy-*) ── */
+.rd-top { background: linear-gradient(90deg, #10225f 0%, #172e7a 100%); border-bottom: 0; color: #fff; }
+.rd-logo { width: auto; height: 34px; background: none; border-radius: 0; padding-right: 14px; border-right: 1px solid rgba(255, 255, 255, .18); }
+.rd-logo img { height: 30px; width: auto; display: block; }
+.rd-title { color: #fff; font-weight: 600; }
+.rd-sub { color: #a9b0d6; border-left-color: rgba(255, 255, 255, .18); }
+.rd-search input { background: #fff; border-color: transparent; color: #14203d; }
+.rd-search input::placeholder { color: #7a8399; }
+.rd-top .rd-btn { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .22); color: #fff; }
+.rd-top .rd-btn:hover { background: rgba(255, 255, 255, .16); border-color: rgba(255, 255, 255, .4); color: #fff; }
+.rd-top .rd-btn.is-outline { border-color: rgba(255, 255, 255, .5); }
+.rd-updated { border-color: rgba(255, 255, 255, .22); color: #dfe4ff; }
+.rd-user { color: #dfe4ff; border-left-color: rgba(255, 255, 255, .18); }
+.rd-tab.is-active { color: #10225f; border-bottom-color: #3b5bdb; }
+:root:not([data-theme="dark"]) .rd-btn.is-primary { background: #10225f; border-color: #10225f; }
+:root:not([data-theme="dark"]) .rd-btn.is-primary:hover { background: #172e7a; }
+:root[data-theme="dark"] .rd-top { background: linear-gradient(90deg, #0b1843 0%, #10225f 100%); }
+:root[data-theme="dark"] .rd-tab.is-active { color: var(--brand); }

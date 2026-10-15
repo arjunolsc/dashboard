@@ -135,7 +135,8 @@
 		app.innerHTML = `
 			<header class="rd-top">
 				<div class="rd-brand">
-					<a class="rd-logo" href="/app/atlas-home" title="Back to Atlas Home" aria-label="Back to Atlas Home">${I.logo}</a>
+					<a class="rd-logo" href="/app/atlas-home" title="Back to Atlas Home" aria-label="Back to Atlas Home">
+						<img src="/assets/olscpl_hrms/images/om_logo.svg" alt="OM One"></a>
 					<div class="rd-title">Recruitment &amp; Onboarding</div>
 					<div class="rd-sub">Manage hiring pipelines, evaluate applicants, track offers and onboard new joiners from one workspace</div>
 				</div>
