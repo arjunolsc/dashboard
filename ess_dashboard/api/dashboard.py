@@ -190,10 +190,20 @@ def get_attendance_month(year, month):
 		fields=["attendance_date", "status", "working_hours"],
 	)
 
+	# requests still awaiting approval - R-PA / L-PA / WFH-PA / V-PA, the
+	# Muster Roll's rules (olscpl_hrms.api.mobile_attendance.pending_codes)
+	try:
+		from olscpl_hrms.api.mobile_attendance import pending_codes
+
+		pending = pending_codes(employee, start, end)
+	except ImportError:
+		pending = {}
+
 	return {
 		"year": year,
 		"month": month,
 		"days": [
 			{"date": str(r.attendance_date), "status": r.status, "hours": r.working_hours} for r in rows
 		],
+		"pending": pending,
 	}

@@ -374,6 +374,10 @@ body {
 	position: relative;
 }
 .cal-cell-empty { background: transparent; }
+/* pending-approval symbol (R-PA / L-PA / WFH-PA / V-PA) under the day */
+.cal-cell { flex-direction: column; gap: 1px; }
+.cal-pa { font-size: 9px; line-height: 1; font-weight: 700; color: var(--amber-600); letter-spacing: .02em; }
+.cal-legend-code { display: inline-block; min-width: 42px; font-size: 10px; font-weight: 700; color: var(--amber-600); }
 .cal-daynum {
 	width: 32px;
 	height: 32px;

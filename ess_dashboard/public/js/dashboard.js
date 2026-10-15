@@ -227,6 +227,14 @@
 		["cal-wfh", "Work From Home"],
 	];
 
+	// Muster Roll's pending-approval symbols, shown under the day
+	var CAL_PENDING_LEGEND = [
+		["R-PA", "Regularization pending"],
+		["L-PA", "Leave pending"],
+		["WFH-PA", "WFH pending"],
+		["V-PA", "Visit pending"],
+	];
+
 	function fetchAttendanceMonth(year, month) {
 		return fetch(
 			"/api/method/ess_dashboard.api.dashboard.get_attendance_month?year=" + year + "&month=" + month,
@@ -236,6 +244,10 @@
 			.then(function (body) {
 				var map = {};
 				(body.message.days || []).forEach(function (d) { map[d.date] = d; });
+				// pending-approval symbol per date (R-PA / L-PA / WFH-PA / V-PA)
+				Object.keys(body.message.pending || {}).forEach(function (date) {
+					map[date] = Object.assign({}, map[date], { pending: body.message.pending[date] });
+				});
 				return map;
 			});
 	}
@@ -258,8 +270,9 @@
 			var isToday = dateKey === todayKey;
 			cells +=
 				'<div class="cal-cell' + (tone ? " " + tone : "") + (isToday ? " cal-today" : "") + '" title="' +
-				(rec ? escapeHtml(rec.status) : "Not marked") + '">' +
+				(rec && rec.status ? escapeHtml(rec.status) : "Not marked") + (rec && rec.pending ? " - " + escapeHtml(rec.pending) + " (awaiting approval)" : "") + '">' +
 				'<span class="cal-daynum">' + day + "</span>" +
+				(rec && rec.pending ? '<span class="cal-pa" title="Awaiting approval">' + escapeHtml(rec.pending) + "</span>" : "") +
 				"</div>";
 		}
 
@@ -269,6 +282,8 @@
 
 		var legend = CAL_LEGEND.map(function (l) {
 			return '<div class="cal-legend-item"><span class="cal-legend-dot ' + l[0] + '"></span>' + l[1] + "</div>";
+		}).join("") + CAL_PENDING_LEGEND.map(function (l) {
+			return '<div class="cal-legend-item"><span class="cal-legend-code">' + l[0] + "</span>" + l[1] + "</div>";
 		}).join("");
 
 		return (
